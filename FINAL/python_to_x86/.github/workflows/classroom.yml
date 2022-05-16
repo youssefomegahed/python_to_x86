@@ -1,0 +1,22 @@
+    name: GitHub Classroom Workflow
+
+    on: [push]
+
+    jobs:
+      build:
+        name: Grading
+        runs-on: ubuntu-latest
+        steps:
+          - uses: actions/checkout@v2
+          - shell: bash
+            env:
+              SUPER_SECRET: ${{ secrets.GitToken }}
+              USERNAME: ${{ secrets.Username }}
+              GITPATH: ${{ secrets.HW6BGitPath }}
+            name : Running Tests
+            run: |
+              cd tests
+              git clone https://${USERNAME}:${SUPER_SECRET}@github.com/${GITPATH}
+              cd HW6BTests
+              chmod 777 autograde.sh
+              ./autograde.sh
